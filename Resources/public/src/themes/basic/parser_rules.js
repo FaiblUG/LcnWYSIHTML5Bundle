@@ -1,78 +1,128 @@
 /**
  * Full HTML5 compatibility rule set
- * These rules define which tags and css classes are supported and which tags should be specially treated.
- *
- * Examples based on this rule set:
- *
- *    <a href="http://foobar.com">foo</a>
- *    ... becomes ...
- *    <a href="http://foobar.com" target="_blank" rel="nofollow">foo</a>
- *
- *    <img align="left" src="http://foobar.com/image.png">
- *    ... becomes ...
- *    <img class="wysiwyg-float-left" src="http://foobar.com/image.png" alt="">
- *
- *    <div>foo<script>alert(document.cookie)</script></div>
- *    ... becomes ...
- *    <div>foo</div>
- *
- *    <marquee>foo</marquee>
- *    ... becomes ...
- *    <span>foo</marquee>
- *
- *    foo <br clear="both"> bar
- *    ... becomes ...
- *    foo <br class="wysiwyg-clear-both"> bar
- *
- *    <div>hello <iframe src="http://google.com"></iframe></div>
- *    ... becomes ...
- *    <div>hello </div>
- *
- *    <center>hello</center>
- *    ... becomes ...
- *    <div class="wysiwyg-text-align-center">hello</div>
+ * Loosened and extended ruleset. Allows more freedom on user side
+ * These rules define which tags and CSS classes are supported and which tags should be specially treated.
  */
+
+var wysihtml5ParserRulesDefaults = {
+    "blockLevelEl": {
+        "keep_styles": {
+            "textAlign": /^((left)|(right)|(center)|(justify))$/i,
+            "float": 1
+        },
+        "add_style": {
+            "align": "align_text"
+        },
+        "check_attributes": {
+            "id": "any"
+        }
+    },
+
+    "makeDiv": {
+        "rename_tag": "div",
+        "one_of_type": {
+            "alignment_object": 1
+        },
+        "remove_action": "unwrap",
+        "keep_styles": {
+            "textAlign": 1,
+            "float": 1
+        },
+        "add_style": {
+            "align": "align_text"
+        },
+        "check_attributes": {
+            "id": "any"
+        }
+    }
+};
+
 var wysihtml5ParserRules = {
     /**
      * CSS Class white-list
-     * Following css classes won't be removed when parsed by the wysihtml5 html parser
+     * Following CSS classes won't be removed when parsed by the wysihtml5 HTML parser
+     * If all classes should pass "any" as classes value. Ex: "classes": "any"
      */
-    "classes": {
-        "wysiwyg-clear-both": 1,
-        "wysiwyg-clear-left": 1,
-        "wysiwyg-clear-right": 1,
-        "wysiwyg-color-primary": 1,
-        "wysiwyg-color-secondary": 1,
-        "wysiwyg-float-left": 1,
-        "wysiwyg-float-right": 1,
-        "wysiwyg-font-size-large": 1,
-        "wysiwyg-font-size-larger": 1,
-        "wysiwyg-font-size-medium": 1,
-        "wysiwyg-font-size-small": 1,
-        "wysiwyg-font-size-smaller": 1,
-        "wysiwyg-font-size-x-large": 1,
-        "wysiwyg-font-size-x-small": 1,
-        "wysiwyg-font-size-xx-large": 1,
-        "wysiwyg-font-size-xx-small": 1,
-        "wysiwyg-text-align-center": 1,
-        "wysiwyg-text-align-justify": 1,
-        "wysiwyg-text-align-left": 1,
-        "wysiwyg-text-align-right": 1
+    "classes": "any",
+
+    /* blacklist of classes is only available if classes is set to any */
+    "classes_blacklist": {
+        "Apple-interchange-newline": 1,
+        "MsoNormal": 1,
+        "MsoPlainText": 1
     },
+
+    "type_definitions": {
+
+        "alignment_object": {
+            "classes": {
+                "wysiwyg-text-align-center": 1,
+                "wysiwyg-text-align-justify": 1,
+                "wysiwyg-text-align-left": 1,
+                "wysiwyg-text-align-right": 1,
+                "wysiwyg-float-left": 1,
+                "wysiwyg-float-right": 1
+            },
+            "styles": {
+                "float": ["left", "right"],
+                "text-align": ["left", "right", "center"]
+            }
+        },
+
+        "valid_image_src": {
+            "attrs": {
+                "src": /^[^data\:]/i
+            }
+        },
+
+        "text_color_object": {
+            "styles": {
+                "color": true,
+                "background-color": true
+            }
+        },
+
+        "text_fontsize_object": {
+            "styles": {
+                "font-size": true
+            }
+        },
+
+        "text_formatting_object": {
+            "classes": {
+                "wysiwyg-color-primary": 1,
+                "wysiwyg-color-secondary": 1,
+                "wysiwyg-font-size-large": 1,
+                "wysiwyg-font-size-larger": 1,
+                "wysiwyg-font-size-medium": 1,
+                "wysiwyg-font-size-small": 1,
+                "wysiwyg-font-size-smaller": 1,
+                "wysiwyg-font-size-x-large": 1,
+                "wysiwyg-font-size-x-small": 1,
+                "wysiwyg-font-size-xx-large": 1,
+                "wysiwyg-font-size-xx-small": 1
+            }
+        }
+    },
+
+    "comments": 1, // if set allows comments to pass
+
     /**
      * Tag list
      *
-     * Following options are available:
+     * The following options are available:
      *
      *    - add_class:        converts and deletes the given HTML4 attribute (align, clear, ...) via the given method to a css class
      *                        The following methods are implemented in wysihtml5.dom.parse:
      *                          - align_text:  converts align attribute values (right/left/center/justify) to their corresponding css class "wysiwyg-text-align-*")
-                                  <p align="center">foo</p> ... becomes ... <p> class="wysiwyg-text-align-center">foo</p>
+     *                            <p align="center">foo</p> ... becomes ... <p> class="wysiwyg-text-align-center">foo</p>
      *                          - clear_br:    converts clear attribute values left/right/all/both to their corresponding css class "wysiwyg-clear-*"
      *                            <br clear="all"> ... becomes ... <br class="wysiwyg-clear-both">
      *                          - align_img:    converts align attribute values (right/left) on <img> to their corresponding css class "wysiwyg-float-*"
-     *                          
-     *    - remove:             removes the element and it's content
+     *
+     *    - remove:             removes the element and its content
+     *
+     *    - unwrap              removes element but leaves content
      *
      *    - rename_tag:         renames the element to the given tag
      *
@@ -81,21 +131,27 @@ var wysihtml5ParserRules = {
      *    - set_attributes:     sets/overrides the given attributes
      *
      *    - check_attributes:   checks the given HTML attribute via the given method
-     *                            - url:      checks whether the given string is an url, deletes the attribute if not
-     *                            - alt:      strips unwanted characters. if the attribute is not set, then it gets set (to ensure valid and compatible HTML)
+     *                            - url:            allows only valid urls (starting with http:// or https://)
+     *                            - src:            allows something like "/foobar.jpg", "http://google.com", ...
+     *                            - href:           allows something like "mailto:bert@foo.com", "http://google.com", "/foobar.jpg"
+     *                            - alt:            strips unwanted characters. if the attribute is not set, then it gets set (to ensure valid and compatible HTML)
      *                            - numbers:  ensures that the attribute only contains numeric characters
+     *                            - any:            allows anything to pass
      */
     "tags": {
         "tr": {
-            "add_class": {
+            "add_style": {
                 "align": "align_text"
+            },
+            "check_attributes": {
+                "id": "any"
             }
         },
         "strike": {
-            "remove": 1
+            "unwrap": 1
         },
         "form": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "rt": {
             "rename_tag": "span"
@@ -110,25 +166,21 @@ var wysihtml5ParserRules = {
             }
         },
         "details": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
-        "h4": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
+        "h4": wysihtml5ParserRulesDefaults.blockLevelEl,
         "em": {},
         "title": {
             "remove": 1
         },
         "multicol": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "figure": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "xmp": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "small": {
             "rename_tag": "span",
@@ -138,120 +190,147 @@ var wysihtml5ParserRules = {
             "remove": 1
         },
         "time": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "dir": {
             "rename_tag": "ul"
         },
         "bdi": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "command": {
-            "remove": 1
+            "unwrap": 1
         },
-        "ul": {},
+        "ul": {
+            "check_attributes": {
+                "id": "any"
+            }
+        },
         "progress": {
             "rename_tag": "span"
         },
         "dfn": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "iframe": {
-            "remove": 1
+            "check_attributes": {
+                "src": "any",
+                "width": "any",
+                "height": "any",
+                "frameborder": "any",
+                "style": "any",
+                "id": "any"
+            }
         },
         "figcaption": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "a": {
             "check_attributes": {
-                "href": "url"
-            },
-            "set_attributes": {
-                "rel": "nofollow",
-                "target": "_blank"
+                "href": "href", // if you compiled master manually then change this from 'url' to 'href'
+                "rel": "any",
+                "target": "any",
+                "id": "any"
             }
         },
         "img": {
+            "one_of_type": {
+                "valid_image_src": 1
+            },
             "check_attributes": {
                 "width": "numbers",
                 "alt": "alt",
-                "src": "url",
-                "height": "numbers"
+                "src": "src", // if you compiled master manually then change this from 'url' to 'src'
+                "height": "numbers",
+                "id": "any"
             },
             "add_class": {
                 "align": "align_img"
             }
         },
         "rb": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
-        "footer": {
-            "rename_tag": "div"
-        },
+        "footer": wysihtml5ParserRulesDefaults.makeDiv,
         "noframes": {
             "remove": 1
         },
         "abbr": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "u": {},
         "bgsound": {
             "remove": 1
         },
         "sup": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "address": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "basefont": {
             "remove": 1
         },
         "nav": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
-        "h1": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
+        "h1": wysihtml5ParserRulesDefaults.blockLevelEl,
         "head": {
-            "remove": 1
+            "unwrap": 1
         },
-        "tbody": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
+        "tbody": wysihtml5ParserRulesDefaults.blockLevelEl,
         "dd": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "s": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "li": {},
         "td": {
             "check_attributes": {
                 "rowspan": "numbers",
-                "colspan": "numbers"
+                "colspan": "numbers",
+                "valign": "any",
+                "align": "any",
+                "id": "any",
+                "class": "any"
             },
-            "add_class": {
+            "keep_styles": {
+                "backgroundColor": 1,
+                "width": 1,
+                "height": 1
+            },
+            "add_style": {
                 "align": "align_text"
             }
         },
         "object": {
             "remove": 1
         },
+
         "div": {
-            "add_class": {
+            "one_of_type": {
+                "alignment_object": 1
+            },
+            "remove_action": "unwrap",
+            "keep_styles": {
+                "textAlign": 1,
+                "float": 1
+            },
+            "add_style": {
                 "align": "align_text"
+            },
+            "check_attributes": {
+                "id": "any",
+                "contenteditable": "any"
             }
         },
+
         "option": {
-            "rename_tag": "span"
+            "remove":1
         },
         "select": {
-            "rename_tag": "span"
+            "remove":1
         },
         "i": {},
         "track": {
@@ -261,14 +340,14 @@ var wysihtml5ParserRules = {
             "remove": 1
         },
         "fieldset": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "big": {
             "rename_tag": "span",
             "set_class": "wysiwyg-font-size-larger"
         },
         "button": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "noscript": {
             "remove": 1
@@ -279,37 +358,34 @@ var wysihtml5ParserRules = {
         "input": {
             "remove": 1
         },
-        "table": {},
+        "table": {
+            "keep_styles": {
+                "width": 1,
+                "textAlign": 1,
+                "float": 1
+            },
+            "check_attributes": {
+                "id": "any"
+            }
+        },
         "keygen": {
             "remove": 1
         },
-        "h5": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
+        "h5": wysihtml5ParserRulesDefaults.blockLevelEl,
         "meta": {
             "remove": 1
         },
         "map": {
-            "rename_tag": "div"
+            "remove": 1
         },
         "isindex": {
             "remove": 1
         },
         "mark": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
-        "caption": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
-        "tfoot": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
+        "caption": wysihtml5ParserRulesDefaults.blockLevelEl,
+        "tfoot": wysihtml5ParserRulesDefaults.blockLevelEl,
         "base": {
             "remove": 1
         },
@@ -321,23 +397,39 @@ var wysihtml5ParserRules = {
             "remove": 1
         },
         "output": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "marquee": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "b": {},
         "q": {
             "check_attributes": {
-                "cite": "url"
+                "cite": "url",
+                "id": "any"
             }
         },
         "applet": {
             "remove": 1
         },
-        "span": {},
+        "span": {
+            "one_of_type": {
+                "text_formatting_object": 1,
+                "text_color_object": 1,
+                "text_fontsize_object": 1
+            },
+            "keep_styles": {
+                "color": 1,
+                "backgroundColor": 1,
+                "fontSize": 1
+            },
+            "remove_action": "unwrap",
+            "check_attributes": {
+                "id": "any"
+            }
+        },
         "rp": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "spacer": {
             "remove": 1
@@ -345,61 +437,65 @@ var wysihtml5ParserRules = {
         "source": {
             "remove": 1
         },
-        "aside": {
-            "rename_tag": "div"
-        },
+        "aside": wysihtml5ParserRulesDefaults.makeDiv,
         "frame": {
             "remove": 1
         },
-        "section": {
-            "rename_tag": "div"
-        },
+        "section": wysihtml5ParserRulesDefaults.makeDiv,
         "body": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "ol": {},
         "nobr": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "html": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "summary": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "var": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "del": {
-            "remove": 1
+            "unwrap": 1
         },
         "blockquote": {
+            "keep_styles": {
+                "textAlign": 1,
+                "float": 1
+            },
+            "add_style": {
+                "align": "align_text"
+            },
             "check_attributes": {
-                "cite": "url"
+                "cite": "url",
+                "id": "any"
             }
         },
         "style": {
-            "remove": 1
+            "check_attributes": {
+                "type": "any",
+                "src": "any",
+                "charset": "any"
+            }
         },
         "device": {
             "remove": 1
         },
         "meter": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
-        "h3": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
+        "h3": wysihtml5ParserRulesDefaults.blockLevelEl,
         "textarea": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "embed": {
             "remove": 1
         },
         "hgroup": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "font": {
             "rename_tag": "span",
@@ -408,93 +504,99 @@ var wysihtml5ParserRules = {
             }
         },
         "tt": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "noembed": {
             "remove": 1
         },
         "thead": {
-            "add_class": {
+            "add_style": {
                 "align": "align_text"
+            },
+            "check_attributes": {
+                "id": "any"
             }
         },
         "blink": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "plaintext": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "xml": {
             "remove": 1
         },
-        "h6": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
+        "h6": wysihtml5ParserRulesDefaults.blockLevelEl,
         "param": {
             "remove": 1
         },
         "th": {
             "check_attributes": {
                 "rowspan": "numbers",
-                "colspan": "numbers"
+                "colspan": "numbers",
+                "valign": "any",
+                "align": "any",
+                "id": "any"
             },
-            "add_class": {
+            "keep_styles": {
+                "backgroundColor": 1,
+                "width": 1,
+                "height": 1
+            },
+            "add_style": {
                 "align": "align_text"
             }
         },
         "legend": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "hr": {},
         "label": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "dl": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "kbd": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "listing": {
-            "rename_tag": "div"
+            "unwrap": 1
         },
         "dt": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "nextid": {
             "remove": 1
         },
         "pre": {},
-        "center": {
-            "rename_tag": "div",
-            "set_class": "wysiwyg-text-align-center"
-        },
+        "center": wysihtml5ParserRulesDefaults.makeDiv,
         "audio": {
             "remove": 1
         },
         "datalist": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "samp": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "col": {
             "remove": 1
         },
-        "article": {
-            "rename_tag": "div"
-        },
+        "article": wysihtml5ParserRulesDefaults.makeDiv,
         "cite": {},
         "link": {
             "remove": 1
         },
         "script": {
-            "remove": 1
+            "check_attributes": {
+                "type": "any",
+                "src": "any",
+                "charset": "any"
+            }
         },
         "bdo": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "menu": {
             "rename_tag": "ul"
@@ -503,23 +605,15 @@ var wysihtml5ParserRules = {
             "remove": 1
         },
         "ruby": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
-        "h2": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
+        "h2": wysihtml5ParserRulesDefaults.blockLevelEl,
         "ins": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
-        "p": {
-            "add_class": {
-                "align": "align_text"
-            }
-        },
+        "p": wysihtml5ParserRulesDefaults.blockLevelEl,
         "sub": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
         "comment": {
             "remove": 1
@@ -528,10 +622,48 @@ var wysihtml5ParserRules = {
             "remove": 1
         },
         "optgroup": {
-            "rename_tag": "span"
+            "unwrap": 1
         },
-        "header": {
-            "rename_tag": "div"
-        }
+        "header": wysihtml5ParserRulesDefaults.makeDiv
     }
 };
+
+
+(function() {
+    // Paste cleanup rules universal for all rules (also applied to content copied from editor)
+    var commonRules = wysihtml5.lang.object(wysihtml5ParserRules).clone(true);
+    commonRules.comments    = false;
+    commonRules.selectors   = { "a u": "unwrap"};
+    commonRules.tags.style  = { "remove": 1 };
+    commonRules.tags.script = { "remove": 1 };
+    commonRules.tags.head = { "remove": 1 };
+
+    // Paste cleanup for unindentified source
+    var universalRules = wysihtml5.lang.object(commonRules).clone(true);
+    universalRules.tags.div.one_of_type.alignment_object = 1;
+    universalRules.tags.div.remove_action = "unwrap";
+    universalRules.tags.div.check_attributes.style = false;
+    universalRules.tags.div.keep_styles = {
+        "textAlign": /^((left)|(right)|(center)|(justify))$/i,
+        "float": 1
+    };
+    universalRules.tags.span.keep_styles = false;
+
+    // Paste cleanup for MS Office
+    // TODO: should be extended to stricter ruleset, as current set will probably not cover all Office bizarreness
+    var msOfficeRules = wysihtml5.lang.object(universalRules).clone(true);
+    msOfficeRules.classes = {};
+
+    window.wysihtml5ParserPasteRulesets = [
+        {
+            condition: /<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^'']*\bmso-|w:WordDocument|class="OutlineElement|id="?docs\-internal\-guid\-/i,
+            set: msOfficeRules
+        },{
+            condition: /<meta name="copied-from" content="wysihtml5">/i,
+            set: commonRules
+        },{
+            set: universalRules
+        }
+    ];
+
+})();

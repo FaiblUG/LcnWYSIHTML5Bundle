@@ -1,7 +1,7 @@
 LcnWYSIHTML5Bundle
 ==================
 
-WYSIWYG-Editor form widget for Symfony2 base on [WYSIHTML5 by Xing](http://xing.github.io/wysihtml5/). MIT License.
+WYSIWYG-Editor form widget for Symfony2 based on [wysihtml](http://wysihtml.com/) forked from [WYSIHTML5](http://xing.github.io/wysihtml5/). MIT License.
 
 
 Installation
@@ -85,8 +85,8 @@ parameters:
 
 ### Use custom Stylsheets and Javascripts for advanced customizations
   
-You can configure the included assets to achieve any configuration provided by WYSIHTML5.
-For more details, consult the [documentation](https://github.com/xing/wysihtml5).
+You can configure the included assets to achieve any configuration provided by the wysihtml editor.
+For more details, consult the [documentation](http://wysihtml.com/).
 
 ```twig
 parameters:
@@ -117,7 +117,7 @@ parameters:
             - wysiwyg-clear-right
 ```
 
-### Customize Colors
+### Customize existing colors
 
 The editor uses class names to apply pre-defined colors:
 
@@ -136,6 +136,8 @@ However, you have to manually include this stylesheet in your page where you out
 <link rel="stylesheet" href="/bundles/lcnwysihtml5/dist/themes/basic/content.css">
 ```
 
+### Add or remove colors
+
 Configure the available colors in the editor toolbar:
 
 ```twig
@@ -146,7 +148,14 @@ parameters:
         - { command: foreColor, values: [primary, secondary] }
 ```
 
-Configure the allowed color-classnames for Server-Side validation using HTMLPurifier:
+Configure the allowed color class names for Frontend validation in your own custom parser_rules set:
+
+```twig
+parameters:
+    lcn_wysihtml5.parser_rules: /bundles/lcnwysihtml5/dist/themes/basic/parser_rules.js
+```
+
+Configure the allowed color class names for Server-Side validation using HTMLPurifier:
 
 ```twig
 parameters:
