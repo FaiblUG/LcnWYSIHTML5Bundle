@@ -1,0 +1,62 @@
+parameters:
+    # stylesheets get included directly in the web page with the form widget
+    lcn_wysihtml5.stylesheets.controls:
+        - /bundles/lcnwysihtml5/dist/themes/basic/controls.css
+
+    # stylesheets get included in the editor's sandboxed iframe
+    # and should be included when outputting the generated html code.
+    # you might want to add some base stylsheets from your own theme
+    lcn_wysihtml5.stylesheets.content:
+        - /bundles/lcnwysihtml5/dist/themes/basic/content.css
+
+    lcn_wysihtml5.parser_rules: /bundles/lcnwysihtml5/dist/themes/basic/parser_rules.js
+
+    # configure the editor commands
+    lcn_wysihtml5.commands:
+        - { command: bold }
+        - { command: italic }
+        - { command: insertUnorderedList }
+        - { command: insertOrderedList }
+        - { command: formatBlock, value: h1 }
+        - { command: formatBlock, value: h2 }
+        - { command: insertImage }
+        - { command: createLink }
+        - { command: foreColor, values: [primary, secondary] }
+
+    lcn_wysihtml5.i18n_domain: 'lcn_wysihtml5_bundle'
+
+    lcn_wysihtml5.purifier_config:
+        'Attr.AllowedClasses':
+            - wysiwyg-color-primary
+            - wysiwyg-color-secondary
+            - wysiwyg-float-left
+            - wysiwyg-float-right
+            - wysiwyg-clear-left
+            - wysiwyg-clear-right
+
+services:
+
+    lcn_wysihtml5.html_purifier:
+        private: true
+        class: Lcn\WYSIHTML5Bundle\Service\HtmlPurifier
+        arguments:
+            - config: '%lcn_wysihtml5.purifier_config%'
+
+
+    lcn_wysihtml5.form.transformer.html_purifier:
+        private: true
+        class: Lcn\WYSIHTML5Bundle\Form\Transformer\HtmlPurifierTransformer
+        arguments: [@lcn_wysihtml5.html_purifier]
+
+    lcn_wysihtml5.form.type.lcn_wysihtml5:
+        class: Lcn\WYSIHTML5Bundle\Form\Type\WYSIHTML5Type
+        arguments:
+          - controls_stylesheets: '%lcn_wysihtml5.stylesheets.controls%'
+            content_stylesheets: '%lcn_wysihtml5.stylesheets.content%'
+            parser_rules: '%lcn_wysihtml5.parser_rules%'
+            commands: '%lcn_wysihtml5.commands%'
+            i18n_domain: '%lcn_wysihtml5.i18n_domain%'
+            purifier_transformer: '@lcn_wysihtml5.form.transformer.html_purifier'
+        tags:
+            - { name: form.type, alias: lcn_wysihtml5 }
+

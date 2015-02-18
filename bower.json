@@ -1,0 +1,20 @@
+{
+  "name": "lcn-wysihtml5-bundlel",
+  "version": "1.0.0",
+  "authors": [
+    "Jonas Fischer-Maeck"
+  ],
+  "description": "WYSIWYG-Editor form widget for Symfony2 base on WYSIHTML5 by Xing",
+  "homepage": "https://github.com/FaiblUG/LcnWYSIHTML5Bundle",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "wysihtml5": "0.3.*"
+  }
+}

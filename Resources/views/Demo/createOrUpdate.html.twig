@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>LcnWYSIHTML5Bundle Demo and Documentation</title>
+</head>
+<body>
+
+<h1>Demo usage of LcnWYSIHTML5Bundle</h1>
+
+<h2>Edit entity</h2>
+
+{{ form_start(form) }}
+
+    {{ form_errors(form) }}
+    {{ form_rest(form) }}
+
+    <p>
+        <input type="submit" value="save">
+    </p>
+
+</form>
+
+{{ lcn_include_stylesheets() }}
+{{ lcn_include_javascripts() }}
+</body>
+</html>
+

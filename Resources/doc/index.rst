@@ -1,0 +1,1 @@
+Documentation: https://github.com/FaiblUG/LcnWYSIHTML5Bundle

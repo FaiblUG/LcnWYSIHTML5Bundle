@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>LcnWYSIHTML5Bundle Demo and Documentation</title>
+    <link rel="stylesheet" href="{{ asset('bundles/lcnwysihtml5/dist/themes/basic/content.css') }}">
+</head>
+<body>
+
+<h1>Demo usage of LcnWYSIHTML5Bundle</h1>
+
+<h2>Show temporary entity {{ entity.id }}</h2>
+
+<div><b>HTML:</b></div>
+
+<div>
+    {{ entity.html|raw }}
+</div>
+
+<a href="{{ path('lcn_wysihtml5_demo_edit', { 'id': entity.id }) }}">Edit temporary entity</a>
+
+</body>
+</html>
+

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>command.bold</source>
+                <target>Bold</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>command.italic</source>
+                <target>Italic</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>command.insertUnorderedList</source>
+                <target>Unordered List</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>command.insertOrderedList</source>
+                <target>Ordered List</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>command.foreColor</source>
+                <target>Text Color</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>command.foreColor.primary</source>
+                <target>Primary Color</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>command.foreColor.secondary</source>
+                <target>Secondary Color</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>command.createLink</source>
+                <target>Create Link</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

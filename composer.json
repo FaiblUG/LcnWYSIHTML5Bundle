@@ -1,0 +1,30 @@
+{
+  "name" : "locaine/lcn-wysihtml5-bundle",
+  "description" : "WYSIWYG form type for Symfony2 using WYSIHTML5 and HTMLPurifier libraries",
+  "type" : "symfony-bundle",
+  "authors" : [{
+    "name" : "Jonas Fischer-Maeck",
+    "email" : "info@jonasfischer.net"
+  }],
+  "keywords" : [
+    "Symfony 2", "Twig", "WYSIWYG", "Form Type"
+  ],
+  "license" : [
+    "MIT"
+  ],
+  "require" : {
+  },
+  "autoload" : {
+    "psr-0" : {
+      "Lcn\\WYSIHTML5Bundle" : ""
+    }
+  },
+  "target-dir" : "Lcn/WYSIHTML5Bundle",
+  "repositories" : [{
+  }],
+  "extra" : {
+    "branch-alias" : {
+      "dev-master" : "1.0.0-dev"
+    }
+  }
+}

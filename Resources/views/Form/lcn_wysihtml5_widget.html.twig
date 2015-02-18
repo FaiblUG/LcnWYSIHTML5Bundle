@@ -1,0 +1,65 @@
+{% block lcn_wysihtml5_widget %}
+    {% trans_default_domain i18n_domain %}
+    {% spaceless %}
+        <div class="lcn-wysihtml5" id="lcn-wysihtml5-{{ id }}">
+            <div id="lcn-wysihtml5-{{ id }}-toolbar" class="toolbar" style="display: none;">
+                <header>
+                    <ul class="commands">
+                        {% for command in commands %}
+                            {% if command.values is defined %}
+                                <li data-wysihtml5-command-group="{{ command.command }}" title="{{ ('command.'~command.command)|trans }}">
+                                    <ul>
+                                        {% for value in command.values %}
+                                            <li data-wysihtml5-command="{{ command.command }}" title="{{ ('command.'~command.command~'.'~value)|trans }}" data-wysihtml5-command-value="{{ value }}">
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li data-wysihtml5-command="{{ command.command }}" title="{{ ('command.'~command.command~(command.value is defined ? '.'~command.value : ''))|trans }}"{% if command.value is defined %} data-wysihtml5-command-value="{{ command.value }}"{% endif %}></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </header>
+                <div data-wysihtml5-dialog="createLink" style="display: none;">
+                    <label>
+                        Link:
+                        <input data-wysihtml5-dialog-field="href" value="http://">
+                    </label>
+                    <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+                </div>
+
+                <div data-wysihtml5-dialog="insertImage" style="display: none;">
+                    <label>
+                        Image:
+                        <input data-wysihtml5-dialog-field="src" value="http://">
+                    </label>
+                    <label>
+                        Align:
+                        <select data-wysihtml5-dialog-field="className">
+                            <option value="">default</option>
+                            <option value="wysiwyg-float-left">left</option>
+                            <option value="wysiwyg-float-right">right</option>
+                        </select>
+                    </label>
+                    <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+                </div>
+            </div>
+
+            {{ block('textarea_widget') }}
+
+        </div>
+        {% if (lcn_include_stylesheets_available is defined and lcn_include_stylesheets_available) %}
+            {% for controls_stylesheet in controls_stylesheets %}
+                {{ lcn_use_stylesheet_async(controls_stylesheet) }}
+            {% endfor %}
+            {{ lcn_use_javascript(asset('bundles/lcnwysihtml5/bower/wysihtml5/dist/wysihtml5-0.3.0.min.js')) }}
+            {{ lcn_use_javascript(parser_rules) }}
+            {{ lcn_use_inline_javascript('
+                var editor = new wysihtml5.Editor("'~id~'", { // id of textarea element
+                    toolbar: "lcn-wysihtml5-'~id~'-toolbar", // id of toolbar element
+                    parserRules:  wysihtml5ParserRules, // defined in parser rules set
+                    stylesheets: '~content_stylesheets|json_encode~'
+                });') }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
