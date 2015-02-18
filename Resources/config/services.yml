@@ -26,6 +26,7 @@ parameters:
     lcn_wysihtml5.i18n_domain: 'lcn_wysihtml5_bundle'
 
     lcn_wysihtml5.purifier_config:
+        'Cache.SerializerPath': %kernel.cache_dir%/lcn_wysihtml5/html_purifier
         'Attr.AllowedClasses':
             - wysiwyg-color-primary
             - wysiwyg-color-secondary

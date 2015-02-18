@@ -21,6 +21,11 @@ class HtmlPurifier
         $config = \HTMLPurifier_Config::createDefault();
 
         if (array_key_exists('config', $options) && is_array($options['config'])) {
+
+            if (array_key_exists('Cache.SerializerPath', $options['config'])) {
+                mkdir($options['config']['Cache.SerializerPath'], 0755, true);
+            }
+
             foreach ($options['config'] as $key => $value) {
                 $config->set($key, $value);
             }

@@ -48,18 +48,18 @@
             {{ block('textarea_widget') }}
 
         </div>
-        {% if (lcn_include_stylesheets_available is defined and lcn_include_stylesheets_available) %}
-            {% for controls_stylesheet in controls_stylesheets %}
-                {{ lcn_use_stylesheet_async(controls_stylesheet) }}
-            {% endfor %}
-            {{ lcn_use_javascript(asset('bundles/lcnwysihtml5/bower/wysihtml/dist/wysihtml5x-toolbar.min.js')) }}
-            {{ lcn_use_javascript(parser_rules) }}
-            {{ lcn_use_inline_javascript('
-                var editor = new wysihtml5.Editor("'~id~'", { // id of textarea element
-                    toolbar: "lcn-wysihtml5-'~id~'-toolbar", // id of toolbar element
-                    parserRules:  wysihtml5ParserRules, // defined in parser rules set
-                    stylesheets: '~content_stylesheets|json_encode~'
-                });') }}
-        {% endif %}
+
+        {% for controls_stylesheet in controls_stylesheets %}
+            {{ lcn_use_stylesheet_async(controls_stylesheet) }}
+        {% endfor %}
+        {{ lcn_use_javascript(asset('bundles/lcnwysihtml5/bower/wysihtml/dist/wysihtml5x-toolbar.min.js')) }}
+        {{ lcn_use_javascript(parser_rules) }}
+        {{ lcn_use_inline_javascript('
+            var editor = new wysihtml5.Editor("'~id~'", { // id of textarea element
+                toolbar: "lcn-wysihtml5-'~id~'-toolbar", // id of toolbar element
+                parserRules:  wysihtml5ParserRules, // defined in parser rules set
+                stylesheets: '~content_stylesheets|json_encode~'
+            });') }}
+
     {% endspaceless %}
 {% endblock %}
