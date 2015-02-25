@@ -26,14 +26,31 @@ parameters:
     lcn_wysihtml5.i18n_domain: 'lcn_wysihtml5_bundle'
 
     lcn_wysihtml5.purifier_config:
-        'Cache.SerializerPath': %kernel.cache_dir%/lcn_wysihtml5/html_purifier
-        'Attr.AllowedClasses':
+        Cache.SerializerPath: %kernel.cache_dir%/lcn_wysihtml5/html_purifier
+        Attr.AllowedClasses:
+            - wysiwyg-clear-both
+            - wysiwyg-clear-left
+            - wysiwyg-clear-right
             - wysiwyg-color-primary
             - wysiwyg-color-secondary
             - wysiwyg-float-left
             - wysiwyg-float-right
-            - wysiwyg-clear-left
-            - wysiwyg-clear-right
+            - wysiwyg-font-size-large
+            - wysiwyg-font-size-larger
+            - wysiwyg-font-size-medium
+            - wysiwyg-font-size-small
+            - wysiwyg-font-size-smaller
+            - wysiwyg-font-size-x-large
+            - wysiwyg-font-size-x-small
+            - wysiwyg-font-size-xx-large
+            - wysiwyg-font-size-xx-small
+            - wysiwyg-text-align-center
+            - wysiwyg-text-align-justify
+            - wysiwyg-text-align-left
+            - wysiwyg-text-align-right
+        HTML.Allowed: '*[class],table,tbody,thead,tfoot,tr,td[rowspan|colspan],th[rowspan|colspan],code,br,div,span,p,em,i,u,strong,b,ul,ol,li,a[href|target|rel],img[width|alt|src|height],caption,h1,h2,h3,h4,h5,h6,q[cite],blockquote[cite],hr,pre,cite,sub,sup'
+        Attr.AllowedFrameTargets: '_blank,_self,_parent,_top'
+        Attr.AllowedRel: 'nofollow'
 
 services:
 
