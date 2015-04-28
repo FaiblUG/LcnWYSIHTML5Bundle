@@ -1,76 +1,57 @@
 var gulp = require('gulp');
-var clean = require('gulp-clean');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var sass = require('gulp-sass');
-var minifyCSS = require('gulp-minify-css');
-var prefix = require('gulp-autoprefixer');
-var rename = require('gulp-rename');
+var plugins = require('gulp-load-plugins')();
 
 var publicPath = 'Resources/public';
 var srcPath = publicPath + '/src';
 var distPath = publicPath + '/dist';
 
-var isBuildMode = false;
-
 gulp.task('scripts', function() {
-  var stream = gulp.src([
-    srcPath+'/**/*.js'
-  ]);
-
-  if (isBuildMode) {
-    stream.pipe(uglify());
-  }
-
-  stream
-    .pipe(gulp.dest(distPath));
-
-  return stream;
+  return gulp.src([srcPath+'/**/*.js'])
+    .pipe(gulp.dest(distPath))
+    .pipe(plugins.rename(function (path) {
+      path.basename += ".min";
+    }))
+    .pipe(plugins.uglify())
+    .pipe(gulp.dest(distPath))
+    .pipe(plugins.gzip())
+    .pipe(gulp.dest(distPath))
+  ;
 });
 
 gulp.task('styles', function() {
-  var stream = gulp.src([
-    srcPath+'/**/*.scss'
-  ])
-    .pipe(sass({
+  return gulp.src([srcPath+'/**/*.scss'])
+    .pipe(plugins.sass({
       errLogToConsole: true
     }))
-    .pipe(prefix(["last 3 versions", "> 1%"], { cascade: true }));
-
-  if (isBuildMode) {
-    stream.pipe(minifyCSS());
-  }
-
-  stream
-    .pipe(gulp.dest(distPath));
-
-  return stream;
+    .pipe(plugins.autoprefixer(["last 3 versions", "> 1%"], { cascade: true }))
+    .pipe(gulp.dest(distPath))
+    .pipe(plugins.rename(function (path) {
+      path.basename += ".min";
+    }))
+    .pipe(plugins.minifyCss())
+    .pipe(gulp.dest(distPath))
+    .pipe(plugins.gzip())
+    .pipe(gulp.dest(distPath))
+  ;
 });
 
 gulp.task('copy_assets', function() {
-
-  var rename = require('gulp-rename');
-
-  return gulp.src([
-    srcPath+'/**/*.{png,gif,jpg,jpeg}'
-  ]).pipe(gulp.dest(distPath));
+  return gulp.src([srcPath+'/**/*.{png,gif,jpg,jpeg,svg}'])
+    .pipe(gulp.dest(distPath))
+  ;
 });
 
 
-gulp.task('clean', function() {
-  return gulp.src([distPath], { read: false }).pipe(clean());
+gulp.task('install', function() {
+  return gulp.src(['./package.json', './bower.json']).pipe(plugins.install());
 });
 
-gulp.task('build', ['clean'], function() {
-  isBuildMode = true;
-  gulp.start('do_build');
+gulp.task('clean', function(callback) {
+  var del = require('del');
+  del([distPath + '/**/*'], callback);
 });
 
-gulp.task('do_build', ['default'], function() {
-  isBuildMode = false;
-});
-
-gulp.task('default', ['clean'], function() {
+gulp.task('default', ['install', 'clean'], function() {
   gulp.start('copy_assets');
   gulp.start('styles');
   gulp.start('scripts');

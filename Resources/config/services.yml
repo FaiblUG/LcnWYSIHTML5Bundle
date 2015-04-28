@@ -1,15 +1,15 @@
 parameters:
     # stylesheets get included directly in the web page with the form widget
     lcn_wysihtml5.stylesheets.controls:
-        - /bundles/lcnwysihtml5/dist/themes/basic/controls.css
+        - /bundles/lcnwysihtml5/dist/themes/basic/controls.min.css
 
     # stylesheets get included in the editor's sandboxed iframe
     # and should be included when outputting the generated html code.
     # you might want to add some base stylsheets from your own theme
     lcn_wysihtml5.stylesheets.content:
-        - /bundles/lcnwysihtml5/dist/themes/basic/content.css
+        - /bundles/lcnwysihtml5/dist/themes/basic/content.min.css
 
-    lcn_wysihtml5.parser_rules: /bundles/lcnwysihtml5/dist/themes/basic/parser_rules.js
+    lcn_wysihtml5.parser_rules: /bundles/lcnwysihtml5/dist/themes/basic/parser_rules.min.js
 
     # configure the editor commands
     lcn_wysihtml5.commands:

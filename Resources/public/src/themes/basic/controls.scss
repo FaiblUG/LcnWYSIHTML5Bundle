@@ -3,9 +3,9 @@
 .lcn-wysihtml5 {
   clear: both;
   border: 1px solid $lcn-toolbar-border-color;
-  padding: 0 0.3em 0 0;
 
   .toolbar {
+    font-family: "Verdana", "sans-serif";
     position: relative;
 
     border-bottom: 1px solid $lcn-toolbar-border-color;
@@ -158,31 +158,33 @@
       color: #333;
       font-size: 14px;
       text-align: left;
-      border-radius: 4px;
-      -ms-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
       box-sizing: border-box;
       border: 1px solid #ccc;
-      padding: 5px 10px;
-      background: #FFFBE0;
+      padding: 5px;
+      background: #dedede;
       position: absolute;
-      width: 810px;
-      text-align: center;
-      top: 45px;
+      width: 100%;
+      top: 40px;
+
+      label {
+        text-align: left;
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      input {
+        color: #333;
+        border: 1px solid #ccc;
+        padding: 3px;
+
+        &:focus {
+          outline: 0;
+          border: 1px solid #666;
+        }
+      }
     }
 
-    [data-wysihtml5-dialog] input {
-      color: #333;
-      border: 1px solid #ccc;
-      padding: 3px;
-      width: 300px;
-    }
 
-    [data-wysihtml5-dialog] input:focus {
-      outline: 0;
-      border: 1px solid #666;
-    }
 
     [data-wysihtml5-dialog-action] {
       padding: 4px;
@@ -191,7 +193,7 @@
     }
 
     [data-wysihtml5-dialog-action="save"] {
-      background: #007200;
+      background: #000;
     }
 
     [data-wysihtml5-dialog-action="cancel"] {
@@ -204,6 +206,7 @@
     width: $width !important;
     height: $height !important;
     border: none !important;
+    box-sizing: border-box;
   }
 
 }
