@@ -68,7 +68,7 @@
         </div>
 
         {% for controls_stylesheet in controls_stylesheets %}
-            {{ lcn_use_stylesheet_async(controls_stylesheet) }}
+            {{ lcn_use_stylesheet(controls_stylesheet) }}
         {% endfor %}
         {{ lcn_use_javascript(asset('bundles/lcnwysihtml5/bower/wysihtml/dist/wysihtml5x-toolbar.min.js')) }}
         {{ lcn_use_javascript(parser_rules) }}
