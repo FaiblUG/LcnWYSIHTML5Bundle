@@ -3,12 +3,14 @@
 .lcn-wysihtml5 {
   clear: both;
   border: 1px solid $lcn-toolbar-border-color;
+  position: relative;
 
   .toolbar {
     font-family: "Verdana", "sans-serif";
-    position: relative;
-
-    border-bottom: 1px solid $lcn-toolbar-border-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 
     ul {
       list-style: none;
@@ -22,14 +24,22 @@
     [data-wysihtml5-command-group="foreColor"] {
       position: relative;
       border-right: 1px solid $lcn-toolbar-border-color;
+      border-bottom: 1px solid $lcn-toolbar-border-color;
       list-style: none;
       font-size: 12px;
       display: inline-block;
       cursor: pointer;
-      height: 40px;
-      width: 68px;
+      height: 40px * $lcn-toolbar-icon-scale-factor;
+      width: 68px * $lcn-toolbar-icon-scale-factor;
       color: $lcn-toolbar-color;
       background: $lcn-toolbar-background;
+
+      opacity: 0.7;
+
+      &:hover {
+        opacity: 1;
+      }
+
     }
 
     [data-wysihtml5-command]::after,
@@ -38,6 +48,7 @@
       content: "";
       background-image: url(toolbar_icons.png);
       background-repeat: no-repeat;
+      background-size: 820px * $lcn-toolbar-icon-scale-factor 40px * $lcn-toolbar-icon-scale-factor;
       position: absolute;
       left: 0;
       right: 0;
@@ -53,47 +64,47 @@
     }
 
     [data-wysihtml5-command="bold"]::after {
-      background-position: 24px center;
+      background-position: 24px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command="italic"]::after {
-      background-position: -48px center;
+      background-position: -48px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command="insertUnorderedList"]::after {
-      background-position: -115px center;
+      background-position: -115px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command="insertOrderedList"]::after {
-      background-position: -197px center;
+      background-position: -197px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command="formatBlock"][data-wysihtml5-command-value="h1"]::after {
-      background-position: -344px center;
+      background-position: -344px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command="formatBlock"][data-wysihtml5-command-value="h2"]::after {
-      background-position: -428px center;
+      background-position: -428px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command="createLink"]::after {
-      background-position: -271px center;
+      background-position: -271px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command="insertImage"]::after {
-      background-position: -513px center;
+      background-position: -513px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command-group="foreColor"]::after {
-      background-position: -741px center;
+      background-position: -741px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command="insertSpeech"]::after {
-      background-position: -596px center;
+      background-position: -596px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-action="change_view"]::after {
-      background-position: -670px center;
+      background-position: -670px * $lcn-toolbar-icon-scale-factor center;
     }
 
     .wysihtml5-commands-disabled [data-wysihtml5-command-group="foreColor"] ul {
@@ -119,7 +130,7 @@
       display: none;
       position: absolute;
       z-index: 2;
-      top: 40px;
+      top: 40px * $lcn-toolbar-icon-scale-factor;
       right: -1px;
       left: -2px;
       border: 1px solid #ccc;
@@ -158,13 +169,14 @@
       color: #333;
       font-size: 14px;
       text-align: left;
+      line-height: 2.2em;
       box-sizing: border-box;
       border: 1px solid #ccc;
       padding: 5px;
       background: #dedede;
       position: absolute;
       width: 100%;
-      top: 40px;
+      top: 40px * $lcn-toolbar-icon-scale-factor;
 
       label {
         text-align: left;
@@ -203,6 +215,11 @@
   }
 
   .wysihtml5-sandbox {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
     width: $width !important;
     height: $height !important;
     border: none !important;
