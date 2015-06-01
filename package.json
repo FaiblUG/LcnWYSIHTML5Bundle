@@ -1,6 +1,6 @@
 {
   "name": "lcn-wysihtml5-bundle",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "WYSIWYG-Editor form widget for Symfony2 base on WYSIHTML5 by Xing",
   "main": "Resources/public/dist/lcn-wysihtml5-bundle.js",
