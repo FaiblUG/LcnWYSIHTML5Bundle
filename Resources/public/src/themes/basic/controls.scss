@@ -50,7 +50,7 @@
       content: "";
       background-image: url(toolbar_icons.png);
       background-repeat: no-repeat;
-      background-size: 820px * $lcn-toolbar-icon-scale-factor 40px * $lcn-toolbar-icon-scale-factor;
+      background-size: 970px * $lcn-toolbar-icon-scale-factor 40px * $lcn-toolbar-icon-scale-factor;
       position: absolute;
       left: 0;
       right: 0;
@@ -87,6 +87,14 @@
 
     [data-wysihtml5-command="formatBlock"][data-wysihtml5-command-value="h2"]::after {
       background-position: -428px * $lcn-toolbar-icon-scale-factor center;
+    }
+
+    [data-wysihtml5-command="formatBlock"][data-wysihtml5-command-value="h3"]::after {
+      background-position: -813px * $lcn-toolbar-icon-scale-factor center;
+    }
+
+    [data-wysihtml5-command="formatBlock"][data-wysihtml5-command-value="h4"]::after {
+      background-position: -885px * $lcn-toolbar-icon-scale-factor center;
     }
 
     [data-wysihtml5-command="createLink"]::after {

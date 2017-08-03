@@ -14,7 +14,9 @@
       margin: 0;
       padding: 0;
       font-size: 0; }
-    .lcn-wysihtml5 .toolbar [data-wysihtml5-command], .lcn-wysihtml5 .toolbar [data-wysihtml5-action], .lcn-wysihtml5 .toolbar [data-wysihtml5-command-group="foreColor"] {
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-command],
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-action],
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-command-group="foreColor"] {
       position: relative;
       border-right: 1px solid #ccc;
       border-bottom: 1px solid #ccc;
@@ -27,19 +29,25 @@
       color: #000;
       background: #fff;
       opacity: 0.7; }
-      .lcn-wysihtml5 .toolbar [data-wysihtml5-command]:hover, .lcn-wysihtml5 .toolbar [data-wysihtml5-action]:hover, .lcn-wysihtml5 .toolbar [data-wysihtml5-command-group="foreColor"]:hover {
+      .lcn-wysihtml5 .toolbar [data-wysihtml5-command]:hover,
+      .lcn-wysihtml5 .toolbar [data-wysihtml5-action]:hover,
+      .lcn-wysihtml5 .toolbar [data-wysihtml5-command-group="foreColor"]:hover {
         opacity: 1; }
-    .lcn-wysihtml5 .toolbar [data-wysihtml5-command]::after, .lcn-wysihtml5 .toolbar [data-wysihtml5-action]::after, .lcn-wysihtml5 .toolbar [data-wysihtml5-command-group="foreColor"]::after {
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-command]::after,
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-action]::after,
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-command-group="foreColor"]::after {
       content: "";
       background-image: url(toolbar_icons.png);
       background-repeat: no-repeat;
-      background-size: 492px 24px;
+      background-size: 582px 24px;
       position: absolute;
       left: 0;
       right: 0;
       top: 0;
       bottom: 0; }
-    .lcn-wysihtml5 .toolbar [data-wysihtml5-command]:hover, .lcn-wysihtml5 .toolbar [data-wysihtml5-action]:hover, .lcn-wysihtml5 .toolbar [data-wysihtml5-command-group="foreColor"]:hover {
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-command]:hover,
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-action]:hover,
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-command-group="foreColor"]:hover {
       color: #000;
       background: #eee; }
     .lcn-wysihtml5 .toolbar [data-wysihtml5-command="bold"]::after {
@@ -54,6 +62,10 @@
       background-position: -206.4px center; }
     .lcn-wysihtml5 .toolbar [data-wysihtml5-command="formatBlock"][data-wysihtml5-command-value="h2"]::after {
       background-position: -256.8px center; }
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-command="formatBlock"][data-wysihtml5-command-value="h3"]::after {
+      background-position: -487.8px center; }
+    .lcn-wysihtml5 .toolbar [data-wysihtml5-command="formatBlock"][data-wysihtml5-command-value="h4"]::after {
+      background-position: -531px center; }
     .lcn-wysihtml5 .toolbar [data-wysihtml5-command="createLink"]::after {
       background-position: -162.6px center; }
     .lcn-wysihtml5 .toolbar [data-wysihtml5-command="insertImage"]::after {
@@ -66,10 +78,12 @@
       background-position: -402px center; }
     .lcn-wysihtml5 .toolbar .wysihtml5-commands-disabled [data-wysihtml5-command-group="foreColor"] ul {
       display: none; }
-    .lcn-wysihtml5 .toolbar .wysihtml5-action-active, .lcn-wysihtml5 .toolbar .wysihtml5-command-active {
+    .lcn-wysihtml5 .toolbar .wysihtml5-action-active,
+    .lcn-wysihtml5 .toolbar .wysihtml5-command-active {
       color: #000;
       background: #eee; }
-    .lcn-wysihtml5 .toolbar .wysihtml5-commands-disabled [data-wysihtml5-command], .lcn-wysihtml5 .toolbar .wysihtml5-commands-disabled [data-wysihtml5-command-group="foreColor"] {
+    .lcn-wysihtml5 .toolbar .wysihtml5-commands-disabled [data-wysihtml5-command],
+    .lcn-wysihtml5 .toolbar .wysihtml5-commands-disabled [data-wysihtml5-command-group="foreColor"] {
       opacity: 0.4;
       cursor: default;
       background-image: none !important; }

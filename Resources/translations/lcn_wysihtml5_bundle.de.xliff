@@ -34,6 +34,22 @@
                 <source>command.createLink</source>
                 <target>Link erstellen</target>
             </trans-unit>
+            <trans-unit id="9">
+                <source>command.formatBlock.h1</source>
+                <target>Überschrift 1</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>command.formatBlock.h2</source>
+                <target>Überschrift 2</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>command.formatBlock.h3</source>
+                <target>Überschrift 3</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>command.formatBlock.h4</source>
+                <target>Überschrift 4</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -41,17 +41,12 @@ gulp.task('copy_assets', function() {
   ;
 });
 
-
-gulp.task('install', function() {
-  return gulp.src(['./package.json', './bower.json']).pipe(plugins.install());
-});
-
 gulp.task('clean', function(callback) {
   var del = require('del');
   del([distPath + '/**/*'], callback);
 });
 
-gulp.task('default', ['install', 'clean'], function() {
+gulp.task('default', ['clean'], function() {
   gulp.start('copy_assets');
   gulp.start('styles');
   gulp.start('scripts');
